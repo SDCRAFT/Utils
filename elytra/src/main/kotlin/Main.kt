@@ -1,4 +1,4 @@
-package org.sdcraft.utils
+package org.sdcraft.utils.elytra
 
 import org.bukkit.plugin.java.JavaPlugin
 
