@@ -1,7 +1,0 @@
-name: 'MoreFunFor${name}'
-version: '${version}'
-build-time: '${timestamp}'
-main: org.sdcraft.utils.${name}.Main
-authors:
-  - 'heartalborada'
-api-version: '1.21'

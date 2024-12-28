@@ -1,0 +1,14 @@
+name: 'MoreFunFor${uname}'
+version: '${version}'
+build-time: '${timestamp}'
+main: org.sdcraft.morefun.${name}.Main
+authors:
+  - 'heartalborada'
+api-version: '1.21'
+folia-supported: true
+libraries:
+  - "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0"
+prefix: 'MoreFun${name}'
+commands:
+  ${name}:
+    description: 'MoreFunFor${uname} Command'

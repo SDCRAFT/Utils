@@ -1,4 +1,4 @@
-package org.sdcraft.common;
+package org.sdcraft.builtin;
 
 // The constants are replaced before compilation
 public class BuildConstants {
