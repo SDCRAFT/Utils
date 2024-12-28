@@ -26,7 +26,6 @@ allprojects {
         compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     }
-
 }
 
 subprojects.filter {it.name !in listOf("commons")}.forEach{ project ->

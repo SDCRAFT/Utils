@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
     implementation(project(":commons"))
+    testImplementation(kotlin("test"))
 }
 
 tasks.withType<Jar> {
