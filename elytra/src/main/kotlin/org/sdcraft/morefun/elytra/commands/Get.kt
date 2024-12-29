@@ -1,15 +1,17 @@
 package org.sdcraft.morefun.elytra.commands
 
 import org.bukkit.command.CommandSender
+import org.sdcraft.commons.YamlManager
 import org.sdcraft.commons.commands.SubCommand
+import org.sdcraft.morefun.elytra.storages.MessageStorage
 
-class Get: SubCommand() {
+class Get(private val messageManager: YamlManager<MessageStorage>) : SubCommand() {
     override fun getUsage(): String {
-        return "get creator"
+        return messageManager.getConfig().SubCommands.get.usage
     }
 
     override fun getDescription(): String {
-        return "Get Tools"
+        return messageManager.getConfig().SubCommands.get.description
     }
 
     override fun getName(): String {

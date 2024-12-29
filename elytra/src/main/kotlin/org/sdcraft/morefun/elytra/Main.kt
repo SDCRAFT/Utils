@@ -18,12 +18,12 @@ import java.time.format.DateTimeFormatter
 class Main : JavaPlugin() {
     private val playerMonitor = PlayerMonitor(this)
     private val playerFlyingCalculator = PlayerFlyingCalculator(this, playersGetter = { playerMonitor.playerList })
-    private val commandsManager = CommandsManager(
-        "&cNo Permission",
-        "&cNo Such Command",
-        arrayListOf(Get())
-    )
     private val messageManager = YamlManager(MessageStorage::class.java, File(dataFolder, "message.yml"))
+    private val commandsManager = CommandsManager(
+        messageManager.getConfig().NoPermission,
+        messageManager.getConfig().NoSuchCommand,
+        arrayListOf(Get(messageManager))
+    )
     override fun onEnable() {
         logger.info("Plugin is enabled")
         logger.info("Built at - ${Instant.ofEpochSecond(BuildConstants.BUILD_TIMESTAMP.toLong()).atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT)}")
@@ -34,5 +34,6 @@ class Main : JavaPlugin() {
 
     override fun onDisable() {
         playerFlyingCalculator.stop()
+        messageManager.save()
     }
 }
