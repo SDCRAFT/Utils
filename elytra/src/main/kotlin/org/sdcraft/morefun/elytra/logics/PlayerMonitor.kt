@@ -5,6 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.Plugin
@@ -13,6 +14,7 @@ import org.sdcraft.commons.Util
 open class PlayerMonitor(plugin: Plugin): Listener {
     val playerList = mutableListOf<Player>()
     private val elytraKey = NamespacedKey(plugin, "Elytra")
+    private val creatorKey = NamespacedKey(plugin, "Checkpoint")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerMove(event: PlayerMoveEvent) {
         val player = event.player
@@ -28,5 +30,15 @@ open class PlayerMonitor(plugin: Plugin): Listener {
             container.set(elytraKey, PersistentDataType.BOOLEAN, false)
             Util.sendMessage(player, "&cYou are not flying")
         }
+    }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    fun onUseCreator(event: PlayerInteractEvent) {
+        val meta = event.item?.itemMeta ?: return
+        if (!meta.persistentDataContainer.has(creatorKey))
+            return
+        if (meta.persistentDataContainer.get(creatorKey, PersistentDataType.BOOLEAN) != true)
+            return
+        event.isCancelled = true
+        Util.sendMessage(event.player,"&cCancelled")
     }
 }

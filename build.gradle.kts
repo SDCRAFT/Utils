@@ -3,6 +3,7 @@ import java.util.*
 
 plugins {
     kotlin("jvm") version "2.0.0"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "org.sdcraft"
@@ -29,7 +30,7 @@ allprojects {
 }
 
 subprojects.filter {it.name !in listOf("commons")}.forEach{ project ->
-    println(project.name)
+    project.apply(plugin = "com.gradleup.shadow")
     val templateDest = project.layout.buildDirectory.dir("generated/sources/templates")
     val generateTemplates = project.tasks.register<Copy>("generateTemplates") {
         val props = mapOf(
@@ -52,6 +53,21 @@ subprojects.filter {it.name !in listOf("commons")}.forEach{ project ->
             include("plugin.yml")
         }
         destinationDirectory.set(rootProject.layout.buildDirectory.dir("outputs"))
+    }
+    project.tasks.jar {
+        finalizedBy("shadowJar")
+    }
+    project.tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+        dependencies {
+            include(dependency("com.fasterxml.jackson.core:jackson-databind:2.18.2"))
+            include(dependency("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2"))
+            include(dependency("com.fasterxml.jackson.core:jackson-core:2.18.2"))
+        }
+        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+        archiveClassifier.set("")
+        relocate("com.fasterxml.jackson.databind", "org.sdcraft.shadow.jackson.databind")
+        relocate("com.fasterxml.jackson.dataformat.yaml", "org.sdcraft.shadow.jackson.dataformat.yaml")
+        relocate("com.fasterxml.jackson.core", "org.sdcraft.shadow.jackson.core")
     }
 }
 

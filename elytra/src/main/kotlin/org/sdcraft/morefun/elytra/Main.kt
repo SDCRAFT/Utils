@@ -1,6 +1,9 @@
 package org.sdcraft.morefun.elytra
 
 import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.sdcraft.builtin.BuildConstants
 import org.sdcraft.commons.YamlManager
@@ -22,7 +25,7 @@ class Main : JavaPlugin() {
     private val commandsManager = CommandsManager(
         messageManager.getConfig().NoPermission,
         messageManager.getConfig().NoSuchCommand,
-        arrayListOf(Get(messageManager))
+        arrayListOf(Get(messageManager,this))
     )
     override fun onEnable() {
         logger.info("Plugin is enabled")

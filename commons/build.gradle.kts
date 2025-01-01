@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.5")
+    api("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2")
 }

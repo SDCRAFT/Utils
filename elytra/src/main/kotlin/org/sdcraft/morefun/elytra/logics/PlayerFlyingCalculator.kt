@@ -27,7 +27,7 @@ class PlayerFlyingCalculator(private val plugin: Plugin, private val playersGett
 
     private class Calculator(val playersGetter: () -> MutableList<Player>): BukkitRunnable() {
         override fun run() {
-            var players = playersGetter()
+            val players = playersGetter()
             players.forEach { player ->
                 player.getLocation()
             }
