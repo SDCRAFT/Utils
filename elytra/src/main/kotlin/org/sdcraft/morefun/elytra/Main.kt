@@ -1,10 +1,8 @@
 package org.sdcraft.morefun.elytra
 
 import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.NamespacedKey
-import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitTask
 import org.sdcraft.builtin.BuildConstants
 import org.sdcraft.commons.YamlManager
 import org.sdcraft.commons.commands.CommandsManager
@@ -20,6 +18,7 @@ import java.time.format.DateTimeFormatter
 @Suppress("Unused")
 class Main : JavaPlugin() {
     private val playerMonitor = PlayerMonitor(this)
+    private var particleRunnableTask: BukkitTask? = null
     private val playerFlyingCalculator = PlayerFlyingCalculator(this, playersGetter = { playerMonitor.playerList })
     private val messageManager = YamlManager(MessageStorage::class.java, File(dataFolder, "message.yml"))
     private val commandsManager = CommandsManager(
@@ -28,6 +27,7 @@ class Main : JavaPlugin() {
         arrayListOf(Get(messageManager,this))
     )
     override fun onEnable() {
+        particleRunnableTask = playerMonitor.particleRunnable.runTaskTimerAsynchronously(this, 0, 5)
         logger.info("Plugin is enabled")
         logger.info("Built at - ${Instant.ofEpochSecond(BuildConstants.BUILD_TIMESTAMP.toLong()).atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_INSTANT)}")
         Bukkit.getPluginManager().registerEvents(playerMonitor, this)
@@ -37,6 +37,7 @@ class Main : JavaPlugin() {
 
     override fun onDisable() {
         playerFlyingCalculator.stop()
+        particleRunnableTask?.cancel()
         messageManager.save()
     }
 }

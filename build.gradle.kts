@@ -20,6 +20,9 @@ allprojects {
         maven("https://oss.sonatype.org/content/groups/public/") {
             name = "sonatype"
         }
+        maven("https://repo.dmulloy2.net/repository/public/") {
+            name = "ProtocolLib"
+        }
     }
     apply(plugin = "org.jetbrains.kotlin.jvm")
     dependencies {

@@ -5,8 +5,6 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
-
-
 class PlayerFlyingCalculator(private val plugin: Plugin, private val playersGetter: () -> MutableList<Player>) {
     private var task: BukkitTask? = null
 
