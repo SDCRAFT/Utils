@@ -15,27 +15,28 @@ import java.io.File
 class FolderJsonDataManager<T : Any>(
     private val configClass: Class<T>,
     private val folder: File
-) : DataManagerAbstract<Map<String, T>>() {
-    private val objectMapper = ObjectMapper(JsonFactory().enable(JsonParser.Feature.IGNORE_UNDEFINED))
+) : DataManagerAbstract<MutableMap<String, T>>() {
+    private val objectMapper = ObjectMapper(JsonFactory())
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
         .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,false)
     private val configs: MutableMap<String, T> = mutableMapOf()
 
     init {
-        val module = SimpleModule().apply {
+        objectMapper.registerModules(SimpleModule().apply {
             addDeserializer(Location::class.java, LocationDeserializer())
             addSerializer(Location::class.java, LocationSerializer())
-        }
-        objectMapper.registerModules(module)
+        })
         load()
     }
 
     override fun load() {
-        if (!folder.isDirectory)
-            throw RuntimeException("'${folder.toPath()}' is not a directory")
         if (!folder.exists())
             folder.mkdirs()
+        if (!folder.isDirectory)
+            throw RuntimeException("'${folder.toPath()}' is not a directory")
+        if (folder.listFiles() == null)
+            return
         folder.listFiles()?.forEach {
             if (it.extension == "json") {
                 configs[it.name] = objectMapper.readValue(it, configClass)
@@ -51,5 +52,5 @@ class FolderJsonDataManager<T : Any>(
         }
     }
 
-    override fun getConfig(): Map<String, T> = configs
+    override fun getConfig(): MutableMap<String, T> = configs
 }

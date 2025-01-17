@@ -24,8 +24,8 @@ class Main : JavaPlugin() {
     private val playerFlyingCalculator = PlayerFlyingCalculator(this, playersGetter = { playerMonitor.playerList })
     private val messageManager = YamlManager(MessageStorage::class.java, File(dataFolder, "message.yml"))
     private val commandsManager = CommandsManager(
-        messageManager.getConfig().noPermission,
-        messageManager.getConfig().noSuchCommand,
+        messageManager.getConfig().NoPermission,
+        messageManager.getConfig().NoSuchCommand,
         arrayListOf(Get(messageManager,this))
     )
     private val elytraCheckPointManager = FolderJsonDataManager(ElytraCheckPointStorage::class.java, File(dataFolder, "checkpoints"))
@@ -43,5 +43,6 @@ class Main : JavaPlugin() {
         playerFlyingCalculator.stop()
         particleRunnableTask?.cancel()
         messageManager.save()
+        elytraCheckPointManager.save()
     }
 }

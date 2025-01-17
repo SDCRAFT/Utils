@@ -17,9 +17,11 @@ class YamlManager<T : Any>(
         .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
         .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,false)
     private lateinit var config: T
+
     init {
         load()
     }
+
     override fun load() {
         if (!file.exists()) {
             config = configClass.getDeclaredConstructor().newInstance()

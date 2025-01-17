@@ -27,12 +27,12 @@ class Get(private val messageManager: YamlManager<MessageStorage>, plugin: Plugi
         CREATORTOOL.setItemMeta(meta)
     }
 
-    override fun getUsage(): String {
-        return messageManager.getConfig().subcommands.get.usage
+    override fun getUsage(): String? {
+        return messageManager.getConfig().SubCommands.get?.usage
     }
 
-    override fun getDescription(): String {
-        return messageManager.getConfig().subcommands.get.description
+    override fun getDescription(): String? {
+        return messageManager.getConfig().SubCommands.get?.description
     }
 
     override fun getName(): String {
@@ -45,7 +45,7 @@ class Get(private val messageManager: YamlManager<MessageStorage>, plugin: Plugi
 
     override fun onCommand(sender: CommandSender, args: Array<String?>): Boolean {
         if (sender !is Player) {
-            Util.sendMessage(sender, messageManager.getConfig().noCommandInConsole)
+            Util.sendMessage(sender, messageManager.getConfig().NoCommandInConsole)
             return true
         }
         sender.inventory.addItem(CREATORTOOL)

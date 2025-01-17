@@ -28,7 +28,7 @@ allprojects {
     dependencies {
         testImplementation(kotlin("test"))
         compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0")
     }
 }
 
