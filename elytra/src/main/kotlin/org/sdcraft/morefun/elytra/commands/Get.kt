@@ -2,19 +2,16 @@ package org.sdcraft.morefun.elytra.commands
 
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
-import org.bukkit.attribute.Attribute
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemRarity
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.Plugin
 import org.sdcraft.commons.Util
-import org.sdcraft.commons.YamlManager
+import org.sdcraft.commons.data.managers.YamlManager
 import org.sdcraft.commons.commands.SubCommand
-import org.sdcraft.morefun.elytra.Main
 import org.sdcraft.morefun.elytra.storages.MessageStorage
 
 class Get(private val messageManager: YamlManager<MessageStorage>, plugin: Plugin) : SubCommand() {
@@ -31,11 +28,11 @@ class Get(private val messageManager: YamlManager<MessageStorage>, plugin: Plugi
     }
 
     override fun getUsage(): String {
-        return messageManager.getConfig().SubCommands.get.usage
+        return messageManager.getConfig().subcommands.get.usage
     }
 
     override fun getDescription(): String {
-        return messageManager.getConfig().SubCommands.get.description
+        return messageManager.getConfig().subcommands.get.description
     }
 
     override fun getName(): String {
@@ -48,7 +45,7 @@ class Get(private val messageManager: YamlManager<MessageStorage>, plugin: Plugi
 
     override fun onCommand(sender: CommandSender, args: Array<String?>): Boolean {
         if (sender !is Player) {
-            Util.sendMessage(sender, messageManager.getConfig().NoCommandInConsole)
+            Util.sendMessage(sender, messageManager.getConfig().noCommandInConsole)
             return true
         }
         sender.inventory.addItem(CREATORTOOL)

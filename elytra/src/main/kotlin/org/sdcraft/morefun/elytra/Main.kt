@@ -4,11 +4,13 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.sdcraft.builtin.BuildConstants
-import org.sdcraft.commons.YamlManager
+import org.sdcraft.commons.data.managers.YamlManager
 import org.sdcraft.commons.commands.CommandsManager
 import org.sdcraft.morefun.elytra.commands.Get
+import org.sdcraft.morefun.elytra.implementations.FolderJsonDataManager
 import org.sdcraft.morefun.elytra.logics.PlayerFlyingCalculator
 import org.sdcraft.morefun.elytra.logics.PlayerMonitor
+import org.sdcraft.morefun.elytra.storages.ElytraCheckPointStorage
 import org.sdcraft.morefun.elytra.storages.MessageStorage
 import java.io.File
 import java.time.Instant
@@ -22,10 +24,12 @@ class Main : JavaPlugin() {
     private val playerFlyingCalculator = PlayerFlyingCalculator(this, playersGetter = { playerMonitor.playerList })
     private val messageManager = YamlManager(MessageStorage::class.java, File(dataFolder, "message.yml"))
     private val commandsManager = CommandsManager(
-        messageManager.getConfig().NoPermission,
-        messageManager.getConfig().NoSuchCommand,
+        messageManager.getConfig().noPermission,
+        messageManager.getConfig().noSuchCommand,
         arrayListOf(Get(messageManager,this))
     )
+    private val elytraCheckPointManager = FolderJsonDataManager(ElytraCheckPointStorage::class.java, File(dataFolder, "checkpoints"))
+
     override fun onEnable() {
         particleRunnableTask = playerMonitor.particleRunnable.runTaskTimerAsynchronously(this, 0, 5)
         logger.info("Plugin is enabled")
