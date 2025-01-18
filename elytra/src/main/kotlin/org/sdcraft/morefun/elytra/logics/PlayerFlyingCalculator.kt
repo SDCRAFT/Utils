@@ -27,7 +27,7 @@ class PlayerFlyingCalculator(private val plugin: Plugin, private val playersGett
         override fun run() {
             val players = playersGetter()
             players.forEach { player ->
-                player.getLocation()
+                player.location
             }
         }
     }

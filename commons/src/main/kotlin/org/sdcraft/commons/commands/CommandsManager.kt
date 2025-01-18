@@ -6,17 +6,11 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.jetbrains.annotations.Nullable
 import org.sdcraft.commons.Util
+import org.sdcraft.commons.data.managers.YamlManager
+import org.yaml.snakeyaml.Yaml
 import java.util.*
 
-/**
- * @param noPermissionMessage 无权限时显示的文本
- * @param noSuchCommandMessage 命令不存在时显示的文本
- * @param subCommands 需要注册的子命令
- * @sample
- */
-class CommandsManager(
-    private val noPermissionMessage: String,
-    private val noSuchCommandMessage: String,
+abstract class CommandsManager(
     private val subCommands: ArrayList<SubCommand> = ArrayList<SubCommand>()
 ) : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, s: String, args: Array<String?>): Boolean {
@@ -30,12 +24,12 @@ class CommandsManager(
         for (subCommand in subCommands) if (subCommand.getName() == args[0]) {
             if (!sender.hasPermission(subCommand.getPermission())) Util.sendMessage(
                 sender,
-                noPermissionMessage
+                this.getNoPermissionMessage()
             )
             else subCommand.onCommand(sender, Arrays.copyOfRange(args, 1, args.size))
             return true
         }
-        Util.sendMessage(sender, noSuchCommandMessage)
+        Util.sendMessage(sender, this.getNoSuchCommandMessage())
         return true
     }
 
@@ -61,4 +55,7 @@ class CommandsManager(
                 )
         return null
     }
+
+    abstract fun getNoSuchCommandMessage():String
+    abstract fun getNoPermissionMessage():String
 }

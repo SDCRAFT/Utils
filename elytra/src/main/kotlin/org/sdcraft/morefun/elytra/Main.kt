@@ -23,11 +23,17 @@ class Main : JavaPlugin() {
     private var particleRunnableTask: BukkitTask? = null
     private val playerFlyingCalculator = PlayerFlyingCalculator(this, playersGetter = { playerMonitor.playerList })
     private val messageManager = YamlManager(MessageStorage::class.java, File(dataFolder, "message.yml"))
-    private val commandsManager = CommandsManager(
-        messageManager.getConfig().NoPermission,
-        messageManager.getConfig().NoSuchCommand,
-        arrayListOf(Get(messageManager,this))
-    )
+    private val commandsManager = object : CommandsManager(
+        arrayListOf(Get(messageManager, this)))
+    {
+        override fun getNoSuchCommandMessage(): String {
+            return messageManager.getConfig().NoSuchCommand
+        }
+
+        override fun getNoPermissionMessage(): String {
+            return messageManager.getConfig().NoPermission
+        }
+    }
     private val elytraCheckPointManager = FolderJsonDataManager(ElytraCheckPointStorage::class.java, File(dataFolder, "checkpoints"))
 
     override fun onEnable() {

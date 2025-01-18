@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(project(":commons"))
     testImplementation(kotlin("test"))
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.25.2")
 }
 
 tasks.withType<Jar> {

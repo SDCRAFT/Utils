@@ -20,13 +20,15 @@ allprojects {
         maven("https://oss.sonatype.org/content/groups/public/") {
             name = "sonatype"
         }
-        maven("https://repo.dmulloy2.net/repository/public/") {
-            name = "ProtocolLib"
+        maven("https://repo.papermc.io/repository/maven-public/") {
+            name = "PaperMC"
         }
+
     }
     apply(plugin = "org.jetbrains.kotlin.jvm")
     dependencies {
         testImplementation(kotlin("test"))
+        testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
         compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0")
     }
@@ -71,6 +73,9 @@ subprojects.filter {it.name !in listOf("commons")}.forEach{ project ->
         relocate("com.fasterxml.jackson.databind", "org.sdcraft.shadow.jackson.databind")
         relocate("com.fasterxml.jackson.dataformat.yaml", "org.sdcraft.shadow.jackson.dataformat.yaml")
         relocate("com.fasterxml.jackson.core", "org.sdcraft.shadow.jackson.core")
+    }
+    project.tasks.test {
+        useJUnitPlatform()
     }
 }
 
